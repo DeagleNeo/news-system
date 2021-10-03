@@ -77,7 +77,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "data": "json-server --watch ./data/app.json --port 8888"
   },
   "eslintConfig": {
     "extends": [
