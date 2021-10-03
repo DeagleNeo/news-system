@@ -1,10 +1,10 @@
 import Child from "../child";
-import "./index.css"
+import "./index.less"
 const App = () => {
   return <div>
     Hello world
     <ul>
-      <li>11111111111</li>
+      <li className="test">11111111111</li>
       <li>11111111111</li>
     </ul>
     <Child />

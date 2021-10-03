@@ -1,4 +1,4 @@
-import style from "./index.module.css"
+import style from "./index.module.less"
 
 const Child = () => {
     return (
