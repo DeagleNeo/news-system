@@ -1,5 +1,6 @@
 import React from 'react'
 import { Layout, Menu } from "antd"
+import { withRouter } from "react-router-dom"
 import {
   UserOutlined,
 } from '@ant-design/icons';
@@ -10,7 +11,7 @@ const { Sider } = Layout
 const { SubMenu } = Menu
 const MenuItem = Menu.Item
 
-// 模拟数组结构
+// 模拟导航数据
 const menuList = [
   {
     key: "/home",
@@ -36,7 +37,7 @@ const menuList = [
         key: "/right-manage/role/list",
         title: "角色列表",
         icon: <UserOutlined />
-      },{
+      }, {
         key: "/right-manage/right/list",
         title: "权限列表",
         icon: <UserOutlined />
@@ -45,23 +46,34 @@ const menuList = [
   }
 ]
 
-export default function index() {
+function SideMenu(props) {  
+
+  const routerIndex = props.history.location.pathname;
+
+  // 动态生成导航
+  const renderMenu = (menuList) => {
+    return menuList && menuList.map(item => {
+      if (item.children) {
+        return (
+          <SubMenu key={item.key} title={item.title} icon={item.icon}>
+            {renderMenu(item.children)}
+          </SubMenu>
+        )
+      }
+      return (<MenuItem key={item.key} icon={item.icon} onClick={() => {
+        props.history.push(item.key)
+      }}>{item.title}</MenuItem>)
+    })
+  }
+
   return (
     <Sider trigger={null} collapsible collapsed={false} className={style.sider} >
       <div className={style.logo}>全球新闻管理系统</div>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-        {menuList && menuList.map(item=>{
-          if(item.children){
-            const children = item.children;
-            return (
-              <SubMenu key={item.key} title={item.title} icon={item.icon}>
-                {children.map(item =><MenuItem key={item.key} icon={item.icon}>{item.title}</MenuItem>)}
-              </SubMenu>
-            )
-          }
-          return (<MenuItem key={item.key} icon={item.icon}>{item.title}</MenuItem>)
-        })}
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={[routerIndex]}>
+        {renderMenu(menuList)}
       </Menu>
     </Sider>
   )
 }
+
+export default withRouter(SideMenu);
