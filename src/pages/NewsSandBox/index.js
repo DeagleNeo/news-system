@@ -15,7 +15,7 @@ import "./index.less"
 import { Layout } from "antd"
 const { Content } = Layout;
 
-export default function index(props) {
+export default function NewsSandBox(props) {
     return (
         <Layout>
             <SideMenu></SideMenu>
