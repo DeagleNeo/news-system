@@ -36,6 +36,8 @@ const iconList = {
 function SideMenu(props) {
 
   const [menu, setMenu] = useState([])
+  const selectKey = [props.location.pathname]
+  const openKeys = ["/"+ props.location.pathname.split("/")[1]]
 
   // 动态获取路由结构
   useEffect(() => {
@@ -52,7 +54,7 @@ function SideMenu(props) {
   // 动态生成导航
   const renderMenu = (menuList) => {
     return menuList && menuList.map(item => {
-      if (item.children && checkPagePermission(item)) {
+      if (item.children?.length > 0 && checkPagePermission(item)) {
         return (
           <SubMenu key={item.key} title={item.title} icon={iconList[item.key]}>
             {renderMenu(item.children)}
@@ -67,10 +69,14 @@ function SideMenu(props) {
 
   return (
     <Sider trigger={null} collapsible collapsed={false} className={style.sider} >
-      <div className={style.logo}>全球新闻管理系统</div>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-        {renderMenu(menu)}
-      </Menu>
+      <div className={style.menuSider}>
+        <div className={style.logo}>全球新闻管理系统</div>
+        <div className={style.menuSiderItem}>
+          <Menu theme="dark" mode="inline" selectedKeys={selectKey} defaultOpenKeys={openKeys}>
+            {renderMenu(menu)}
+          </Menu>
+        </div>
+      </div>
     </Sider>
   )
 }
