@@ -1,9 +1,9 @@
 {
   "ports": [
     {
-      "title": "3333333",
-      "author": "隔壁老王",
-      "id": 1
+      "id":1,
+      "title":"112111111",
+      "author":"隔壁老王"
     },
     {
       "id": 2,
@@ -15,12 +15,12 @@
     {
       "id": 1,
       "body": "111-common",
-      "postId": 1
+      "portId": 1
     },
     {
-      "id": 1,
+      "id": 2,
       "body": "222-common",
-      "postId": 1
+      "portId": 1
     }
   ]
 }
