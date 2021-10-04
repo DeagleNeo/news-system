@@ -23,6 +23,11 @@ export default function Home() {
         //     title: '3333333',
         //     author: '隔壁老王'
         // })
+
+        // // 局部更新
+        // axios.patch('http://localhost:8888/ports/2', {
+        //     title:"222232323232"
+        // })
     }
 
     return (
