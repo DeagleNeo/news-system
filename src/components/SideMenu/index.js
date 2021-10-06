@@ -48,7 +48,8 @@ function SideMenu(props) {
 
   // 渲染判断 pagepermisson 是根据后端返回的判断页面路由的标识
   const checkPagePermission = (item) => {
-    return item.pagepermisson === 1
+    const {role: { rights }} = JSON.parse(localStorage.getItem('token'))
+    return item.pagepermisson && rights.includes(item.key)
   }
 
   // 动态生成导航
