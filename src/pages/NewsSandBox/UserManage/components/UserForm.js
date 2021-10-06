@@ -22,6 +22,50 @@ const UserForm = forwardRef((props, ref) => {
         })
     }
 
+    const { roleId, region } = JSON.parse(localStorage.getItem('token'))
+    const roleObj = {
+        "1": 'superadmin',
+        "2": 'admin',
+        "3": 'editor'
+    }
+    // 区域可选的禁用判断
+    const checkRegionDisabled = (item) => {
+        if (props.idUpdate) {
+            // 更新
+            if (roleObj[roleId] === 'superadmin') {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            // 添加
+            if (roleObj[roleId] === 'superadmin') {
+                return false;
+            } else {
+                return item.value !== region
+            }
+        }
+    }
+
+    // 角色可选的禁用判断
+    const checkRoleDisables = (item) => {
+        if (props.idUpdate) {
+            // 更新
+            if (roleObj[roleId] === 'superadmin') {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            // 添加
+            if (roleObj[roleId] === 'superadmin') {
+                return false;
+            } else {
+                return roleObj[item.id] !== "editor"
+            }
+        }
+    }
+
     return (
         <Form
             ref={ref}
@@ -48,7 +92,7 @@ const UserForm = forwardRef((props, ref) => {
             >
                 <Select onChange={(value) => changeRole(value)}>
                     {roles && roles.map(item => {
-                        return <Option key={item.id} value={item.id}>{item.roleName}</Option>
+                        return <Option disabled={checkRoleDisables(item)} key={item.id} value={item.id}>{item.roleName}</Option>
                     })}
                 </Select>
             </Form.Item>
@@ -59,7 +103,7 @@ const UserForm = forwardRef((props, ref) => {
             >
                 <Select disabled={isDisabled}>
                     {regions && regions.map(item => {
-                        return <Option key={item.id} value={item.value}>{item.title}</Option>
+                        return <Option disabled={checkRegionDisabled(item)} key={item.id} value={item.value}>{item.title}</Option>
                     })}
                 </Select>
             </Form.Item>

@@ -19,6 +19,8 @@ export default function UserList() {
     const addForm = useRef(null)
     const updateForm = useRef(null)
 
+    const { roleId, region, username } = JSON.parse(localStorage.getItem('token'))
+
     const columns = [
         {
             title: '区域',
@@ -90,10 +92,24 @@ export default function UserList() {
 
     // 获取用户列表
     useEffect(() => {
+        const roleObj = {
+            "1": 'superadmin',
+            "2": 'admin',
+            "3": 'editor'
+        }
         axios.get(`http://localhost:8888/users?_expand=role`).then(res => {
-            setDataSource(res.data)
+            const listData = res.data
+            if(roleObj[roleId] === 'superadmin'){
+                setDataSource(listData)
+            }else{
+                setDataSource([
+                    ...listData.filter(item => item.username === username),
+                    ...listData.filter(item => item.region === region && roleObj[item.roleId] === 'editor')
+                ])
+            }
+            
         })
-    }, [])
+    }, [roleId, region, username])
 
     // 确认删除提示框
     const confirmMessage = (item) => {
@@ -233,6 +249,7 @@ export default function UserList() {
                     ref={updateForm}
                     regions={regions}
                     isUpdateDisable={isUpdateDisable}
+                    idUpdate={true}
                 />
             </Modal>
         </div>
