@@ -16,6 +16,7 @@ import Unpublished from "../../pages/NewsSandBox/PublishManage/Unpublished.js"
 import Published from "../../pages/NewsSandBox/PublishManage/Published.js"
 import Sunset from "../../pages/NewsSandBox/PublishManage/Sunset.js"
 import NewsPreview from '../../pages/NewsSandBox/NewsManage/Preview.js'
+import NewsUpdate from '../../pages/NewsSandBox/NewsManage/Update.js'
 
 // 路由 == 组件 映射表
 const LocalRouterMap = {
@@ -27,6 +28,7 @@ const LocalRouterMap = {
     "/news-manage/draft": NewsDraft, // 草稿箱
     "/news-manage/category": NewsCategory, // 新闻分类
     "/news-manage/preview/:id": NewsPreview, // 新闻预览
+    "/news-manage/update/:id": NewsUpdate, // 新闻更新
     "/audit-manage/audit": Audit, // 审核新闻
     "/audit-manage/list": AuditList, // 审核列表
     "/publish-manage/unpublished": Unpublished, // 待发布

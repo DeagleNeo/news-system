@@ -23,7 +23,6 @@ export default function NewsPreview(props) {
         const id = props.match.params.id
         // 请求关联分类和角色
         axios.get(`/news/${id}?_expand=category&_expand=role`).then(res => {
-            console.log(res.data)
             setNewsInfo(res.data)
             setSubTitle(res.data.category.title)
         })
