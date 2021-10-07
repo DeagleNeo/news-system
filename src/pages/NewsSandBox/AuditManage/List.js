@@ -70,29 +70,34 @@ export default function AuditList(props) {
     // 操作事件
     const auditStateMethod = (item) => {
         const state = item.auditState;
-        const id = item.id
         // 审核中事件
-        if (state === 1) {
-            setDataSource(dataSource.filter(data => data.id !== item.id))
-            axios.patch(`/news/${id}`, {
-                auditState: 0
-            }).then(res => {
-                message.success('撤销成功！')
-            })
-        }
+        if (state === 1) revertMethod(item);
         // 已通过事件
-        if (state === 2) {
-            setDataSource(dataSource.filter(data => data.id !== item.id))
-            axios.patch(`/news/${id}`, {
-                publishState: 1
-            }).then(res => {
-                message.success('发布成功！')
-            })
-        }
+        if (state === 2) publishMethod(item);
         // 未通过事件
         if (state === 3) {
-            props.history.push(`/news-manage/update/${id}`)
+            props.history.push(`/news-manage/update/${item.id}`)
         }
+    }
+
+    // 撤销事件
+    const revertMethod = (item) => {
+        setDataSource(dataSource.filter(data => data.id !== item.id))
+        axios.patch(`/news/${item.id}`, {
+            auditState: 0
+        }).then(res => {
+            message.success('撤销成功！')
+        })
+    }
+
+    // 发布事件
+    const publishMethod = (item) => {
+        setDataSource(dataSource.filter(data => data.id !== item.id))
+        axios.patch(`/news/${item.id}`, {
+            publishState: 1
+        }).then(res => {
+            message.success('发布成功！')
+        })
     }
 
     return (
