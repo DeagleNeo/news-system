@@ -65,7 +65,7 @@ function NewsAdd(props) {
             "author": User.username,
             "roleId": User.roleId,
             "auditState": auditState, // 审核
-            "publishState": 2, // 发布
+            "publishState": 0, // 发布
             "createTime": Date.now(),
             "star": 0,
             "view": 0,

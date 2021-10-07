@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button } from "antd"
-import axios from 'axios'
 export default function Home() {
 
     const getData = () => {

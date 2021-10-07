@@ -16,12 +16,15 @@ export default function NewsDraft() {
             dataIndex: 'id',
             key: 'id',
             render: (id) => {
-                return <div>{id}</div>
+                return <b>{id}</b>
             }
         }, {
             title: '新闻标题',
             dataIndex: 'title',
             key: 'title',
+            render: (title, item) => {
+                return <a href={`/news-manage/preview/${item.id}`}>{title}</a>
+            }
         }, {
             title: '作者',
             dataIndex: 'author',

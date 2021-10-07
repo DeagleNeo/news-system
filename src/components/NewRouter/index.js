@@ -15,6 +15,7 @@ import AuditList from "../../pages/NewsSandBox/AuditManage/List.js"
 import Unpublished from "../../pages/NewsSandBox/PublishManage/Unpublished.js"
 import Published from "../../pages/NewsSandBox/PublishManage/Published.js"
 import Sunset from "../../pages/NewsSandBox/PublishManage/Sunset.js"
+import NewsPreview from '../../pages/NewsSandBox/NewsManage/Preview.js'
 
 // 路由 == 组件 映射表
 const LocalRouterMap = {
@@ -25,12 +26,12 @@ const LocalRouterMap = {
     "/news-manage/add": NewsAdd, // 撰写新闻
     "/news-manage/draft": NewsDraft, // 草稿箱
     "/news-manage/category": NewsCategory, // 新闻分类
+    "/news-manage/preview/:id": NewsPreview, // 新闻预览
     "/audit-manage/audit": Audit, // 审核新闻
     "/audit-manage/list": AuditList, // 审核列表
     "/publish-manage/unpublished": Unpublished, // 待发布
     "/publish-manage/published": Published, // 已发布
     "/publish-manage/sunset": Sunset, // 已下线
-    "*": NotFount,
 }
 
 export default function NewRouter() {
@@ -52,7 +53,8 @@ export default function NewRouter() {
     const { role: { rights } } = JSON.parse(localStorage.getItem('token'))
     
     const checkRoute = (item) => {
-        return LocalRouterMap[item.key] && item.pagepermisson === 1
+        // item.pagepermisson === 1 || item.routepermisson === 1 侧边栏配置项和路由配置项
+        return LocalRouterMap[item.key] && (item.pagepermisson || item.routepermisson)
     }
 
     const checkUserPermission = (item) => {
