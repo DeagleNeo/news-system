@@ -62,7 +62,6 @@ export default function NewRouter() {
     return (
         <Switch>
             {backRouterList.map(item => {
-                console.log(item)
                 // 权限判断
                 if (checkRoute(item) && checkUserPermission(item)) {
                     return <Route path={item.key} key={item.key} component={LocalRouterMap[item.key]} exact />
