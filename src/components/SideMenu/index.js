@@ -29,7 +29,8 @@ const iconList = {
   "/publish-manage/unpublished": <UserOutlined />,
   "/publish-manage/published": <UserOutlined />,
   "/publish-manage/published": <UserOutlined />,
-  "/publish-manage/sunset": <UserOutlined />
+  "/publish-manage/sunset": <UserOutlined />,
+  "/news-manage/category": <UserOutlined />
 }
 
 

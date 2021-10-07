@@ -47,7 +47,7 @@ export default function NewRouter() {
             setBackRouterList([...res[0].data, ...res[1].data])
         })
 
-    })
+    },[])
     // 获取用户权限数据
     const { role: { rights } } = JSON.parse(localStorage.getItem('token'))
     
@@ -62,6 +62,7 @@ export default function NewRouter() {
     return (
         <Switch>
             {backRouterList.map(item => {
+                console.log(item)
                 // 权限判断
                 if (checkRoute(item) && checkUserPermission(item)) {
                     return <Route path={item.key} key={item.key} component={LocalRouterMap[item.key]} exact />
