@@ -73,24 +73,24 @@ export default function AuditList(props) {
         const id = item.id
         // 审核中事件
         if (state === 1) {
+            setDataSource(dataSource.filter(data => data.id !== item.id))
             axios.patch(`/news/${id}`, {
                 auditState: 0
             }).then(res => {
                 message.success('撤销成功！')
-                props.history.push('/news-manage/draft')
             })
         }
         // 已通过事件
         if (state === 2) {
+            setDataSource(dataSource.filter(data => data.id !== item.id))
             axios.patch(`/news/${id}`, {
                 publishState: 1
             }).then(res => {
                 message.success('发布成功！')
-                props.history.push('/publish-manage/unpublished')
             })
         }
         // 未通过事件
-        if (state === 3) { 
+        if (state === 3) {
             props.history.push(`/news-manage/update/${id}`)
         }
     }
