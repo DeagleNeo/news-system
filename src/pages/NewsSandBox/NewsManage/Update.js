@@ -74,7 +74,6 @@ export default function NewsUpdate(props) {
             "content": content,
             "auditState": auditState, // 审核
         }).then(res => {
-            console.log(res)
             notification.info({
                 message: `通知`,
                 description: `您可以到${auditState === 0 ? "草稿箱" : "审核列表"}中查看您的新闻！`,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Button, Modal } from "antd"
+import { Table, Button, Modal, notification } from "antd"
 import { DeleteOutlined, EditOutlined, QuestionCircleOutlined, VerticalAlignTopOutlined } from "@ant-design/icons"
 import axios from 'axios'
 
@@ -51,12 +51,15 @@ export default function NewsDraft(props) {
                     <Button
                         shape="circle"
                         icon={<EditOutlined />}
-                        onClick={()=> props.history.push(`/news-manage/update/${item.id}`)}
+                        onClick={() => props.history.push(`/news-manage/update/${item.id}`)}
                     />&nbsp;
                     <Button
                         type='primary'
                         shape="circle"
                         icon={<VerticalAlignTopOutlined />}
+                        onClick={() => {
+                            auditStateChange(item.id)
+                        }}
                     />
                 </div>
             }
@@ -95,6 +98,20 @@ export default function NewsDraft(props) {
     const deleteMethod = (item) => {
         axios.delete(`/news/${item.id}`)
         setDataSource(dataSource.filter(data => data.id !== item.id))
+    }
+
+    // 审核事件
+    const auditStateChange = (id) => {
+        axios.patch(`/news/${id}`, {
+            auditState: 1
+        }).then(res => {
+            notification.info({
+                message: `通知`,
+                description: `您可以到审核列表中查看您的新闻！`,
+                placement: "bottomRight",
+            });
+            props.history.push('/audit-manage/list')
+        })
     }
 
     return (
