@@ -1,21 +1,22 @@
-import React from 'react'
-import { Route, Switch, Redirect } from 'react-router'
-
+import React, { useEffect } from 'react'
+import { Layout } from "antd"
+import Nprogress from "nprogress";
 import SideMenu from "../../components/SideMenu"
 import TopHeader from "../../components/TopHeader"
+import NewRouter from '../../components/NewRouter'
 
-import Home from "./Home/Home.js"
-import UserList from "./UserManage/UserList.js"
-import RoleList from "./RightManage/RoleList.js"
-import RightList from "./RightManage/RightList.js"
-import NotFount from "../NotFount"
-
+import "nprogress/nprogress.css"
 import "./index.less"
 
-import { Layout } from "antd"
 const { Content } = Layout;
 
 export default function NewsSandBox(props) {
+    // 开启进度条
+    Nprogress.start()
+    useEffect(() => {
+        // 关闭进度条
+        Nprogress.done()
+    })
     return (
         <Layout>
             <SideMenu></SideMenu>
@@ -29,14 +30,7 @@ export default function NewsSandBox(props) {
                         minHeight: 280,
                     }}
                 >
-                    <Switch>
-                        <Route path="/home" component={Home} />
-                        <Route path="/user-manage/list" component={UserList} />
-                        <Route path="/right-manage/role/list" component={RoleList} />
-                        <Route path="/right-manage/right/list" component={RightList} />
-                        <Redirect from="/" to="/home" exact />
-                        <Route path="*" component={NotFount} />
-                    </Switch>
+                    <NewRouter />
                 </Content>
             </Layout>
         </Layout>
