@@ -94,9 +94,11 @@ export default function AuditList(props) {
     const publishMethod = (item) => {
         setDataSource(dataSource.filter(data => data.id !== item.id))
         axios.patch(`/news/${item.id}`, {
-            publishState: 1
+            publishState: 2,
+            publishTime: Date.now()
         }).then(res => {
             message.success('发布成功！')
+            props.history.push(`/publish-manage/published`)
         })
     }
 

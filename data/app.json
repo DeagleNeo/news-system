@@ -686,11 +686,12 @@
       "author": "admin",
       "roleId": 1,
       "auditState": 2,
-      "publishState": 0,
+      "publishState": 2,
       "createTime": 1633617504662,
       "star": 0,
       "view": 0,
-      "id": 19
+      "id": 19,
+      "publishTime": 1633635303237
     },
     {
       "title": "ttttttt",
