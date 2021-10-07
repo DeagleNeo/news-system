@@ -16,6 +16,12 @@ export default function NewsPreview(props) {
         "2": "已上线",
         "3": "已下线"
     }
+    const colorMap = {
+        "0": "#108ee9",
+        "1": "orange",
+        "2": "green",
+        "3": "red"
+    }
     const [newsInfo, setNewsInfo] = useState({})
     const [subTitle, setSubTitle] = useState('')
 
@@ -42,8 +48,8 @@ export default function NewsPreview(props) {
                         {newsInfo.publishTime ? moment(newsInfo.publishTime).format("YYYY/MM/DD HH:mm:ss") : '-'}
                     </Descriptions.Item>
                     <Descriptions.Item label="区域">{newsInfo.region}</Descriptions.Item>
-                    <Descriptions.Item label="审核状态"><span style={{ color: "red" }}>{auditMap[newsInfo.auditState]}</span></Descriptions.Item>
-                    <Descriptions.Item label="发布状态"><span style={{ color: "red" }}>{publishMap[newsInfo.publishState]}</span></Descriptions.Item>
+                    <Descriptions.Item label="审核状态"><span style={{ color: colorMap[newsInfo.auditState] }}>{auditMap[newsInfo.auditState]}</span></Descriptions.Item>
+                    <Descriptions.Item label="发布状态"><span style={{ color: colorMap[newsInfo.publishState] }}>{publishMap[newsInfo.publishState]}</span></Descriptions.Item>
                     <Descriptions.Item label="访问数量"><span style={{ color: 'green' }}>{newsInfo.view}</span></Descriptions.Item>
                     <Descriptions.Item label="点赞数量"><span style={{ color: 'green' }}>{newsInfo.star}</span></Descriptions.Item>
                     <Descriptions.Item label="评论数量"><span style={{ color: 'green' }}>{0}</span></Descriptions.Item>
