@@ -1,5 +1,5 @@
 import axios from "axios";
-import store from "../redux/store.js"
+import { store } from "../redux/store.js"
 
 axios.defaults.baseURL = `http://localhost:8888`
 
