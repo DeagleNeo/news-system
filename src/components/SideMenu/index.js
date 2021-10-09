@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Layout, Menu } from "antd"
 import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 import {
   UserOutlined,
 } from '@ant-design/icons';
@@ -70,9 +71,9 @@ function SideMenu(props) {
   }
 
   return (
-    <Sider trigger={null} collapsible collapsed={false} className={style.sider} >
+    <Sider trigger={null} collapsible collapsed={props.isCollapsed} className={style.sider} >
       <div className={style.menuSider}>
-        <div className={style.logo}>全球新闻管理系统</div>
+        <div className={style.logo}>{ props.isCollapsed ? '' : '全球新闻管理系统' }</div>
         <div className={style.menuSiderItem}>
           <Menu theme="dark" mode="inline" selectedKeys={selectKey} defaultOpenKeys={openKeys}>
             {renderMenu(menu)}
@@ -83,4 +84,10 @@ function SideMenu(props) {
   )
 }
 
-export default withRouter(SideMenu);
+const mapStateToProps = ({ CollApsedReducer: { isCollapsed } }) => {
+  return {
+      isCollapsed: isCollapsed
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(SideMenu));
