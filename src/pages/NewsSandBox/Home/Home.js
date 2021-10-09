@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Card, Col, Row, List, Avatar } from 'antd';
 import {
     UnorderedListOutlined, EditOutlined, EllipsisOutlined, PieChartOutlined, UserOutlined
 } from '@ant-design/icons';
+import * as Echarts from 'echarts';
+import _ from 'lodash';
 
 import axios from 'axios';
 
 const { Meta } = Card;
 
 export default function Home() {
-
+    const barRef = useRef(null);
     const [viewDataSource, setViewDataSource] = useState([])
     const [starDataSource, setStarDataSource] = useState([])
     const { username, region, role: { roleName } } = JSON.parse(localStorage.getItem('token'))
@@ -27,6 +29,57 @@ export default function Home() {
             setStarDataSource(res.data)
         })
     }, [])
+
+    // 获取已发布的全部新闻并渲染可视化图表
+    useEffect(() => {
+        axios.get(`/news?publishState=2&_expand=category`).then(res => {
+            // 根据返回的字段中的 category.title 分组获取数据
+            const data = _.groupBy(res.data, item => item.category.title)
+            renderBarView(data)
+        })
+        return () => {
+            // 销毁监听窗口改变事件
+            window.onresize = null;
+        }
+    }, [])
+
+    const renderBarView = (data) => {
+        // 基于准备好的dom，初始化echarts实例
+        const myChart = Echarts.init(barRef.current);
+        // 指定图表的配置项和数据
+        const option = {
+            title: {
+                text: '新闻分类图示'
+            },
+            tooltip: {},
+            legend: {
+                data: ['数量']
+            },
+            xAxis: {
+                data: Object.keys(data),
+                axisLabel: {
+                    interval: 0, // 强制显示所有标签
+                    rotate: 45, // x 轴旋转角度
+                }
+            },
+            yAxis: {
+                minInterval: 1, // y 轴最小间隔
+            },
+            series: [
+                {
+                    name: '数量',
+                    type: 'bar', // 图标类型
+                    data: Object.values(data).map(item => item.length), // 数据
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        // 自适应图表大小
+        window.onresize = () => {
+            myChart.resize()
+        }
+    }
 
     return (
         <Row gutter={16}>
@@ -57,9 +110,7 @@ export default function Home() {
                         />
                     }
                     actions={[
-                        <PieChartOutlined onClick={()=>{
-                            console.log('PieChartOutlined')
-                        }} key="" />,
+                        <PieChartOutlined key="" />,
                         <EditOutlined key="edit" />,
                         <EllipsisOutlined key="ellipsis" />,
                     ]}
@@ -71,6 +122,7 @@ export default function Home() {
                     />
                 </Card>
             </Col>
+            <div ref={barRef} style={{ width: '100%', height: 600, marginTop: 50 }}></div>
         </Row>
     )
 }
