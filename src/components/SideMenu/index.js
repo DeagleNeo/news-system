@@ -73,7 +73,7 @@ function SideMenu(props) {
   return (
     <Sider trigger={null} collapsible collapsed={props.isCollapsed} className={style.sider} >
       <div className={style.menuSider}>
-        <div className={style.logo}>{ props.isCollapsed ? '' : '全球新闻管理系统' }</div>
+        <div className={style.logo}>{ props.isCollapsed ? '系统' : '全球新闻管理系统' }</div>
         <div className={style.menuSiderItem}>
           <Menu theme="dark" mode="inline" selectedKeys={selectKey} defaultOpenKeys={openKeys}>
             {renderMenu(menu)}
