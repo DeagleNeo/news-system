@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Route, Switch, Redirect } from 'react-router'
+import { connect } from 'react-redux'
+import { Spin } from "antd"
 import axios from 'axios'
 
 import Home from "../../pages/NewsSandBox/Home/Home.js"
@@ -36,7 +38,7 @@ const LocalRouterMap = {
     "/publish-manage/sunset": Sunset, // 已下线
 }
 
-export default function NewRouter() {
+function NewRouter(props) {
 
     const [backRouterList, setBackRouterList] = useState([]);
 
@@ -50,10 +52,10 @@ export default function NewRouter() {
             setBackRouterList([...res[0].data, ...res[1].data])
         })
 
-    },[])
+    }, [])
     // 获取用户权限数据
     const { role: { rights } } = JSON.parse(localStorage.getItem('token'))
-    
+
     const checkRoute = (item) => {
         // item.pagepermisson === 1 || item.routepermisson === 1 侧边栏配置项和路由配置项
         return LocalRouterMap[item.key] && (item.pagepermisson || item.routepermisson)
@@ -64,17 +66,27 @@ export default function NewRouter() {
     }
 
     return (
-        <Switch>
-            {backRouterList.map(item => {
-                // 权限判断
-                if (checkRoute(item) && checkUserPermission(item)) {
-                    return <Route path={item.key} key={item.key} component={LocalRouterMap[item.key]} exact />
+        <Spin spinning={props.isLoading}>
+            <Switch>
+                {backRouterList.map(item => {
+                    // 权限判断
+                    if (checkRoute(item) && checkUserPermission(item)) {
+                        return <Route path={item.key} key={item.key} component={LocalRouterMap[item.key]} exact />
+                    }
+                    return null;
                 }
-                return null;
-            }
-            )}
-            <Redirect from="/" to="/home" exact />
-            {backRouterList.length > 0 && <Route path="*" component={NotFount} />}
-        </Switch>
+                )}
+                <Redirect from="/" to="/home" exact />
+                {backRouterList.length > 0 && <Route path="*" component={NotFount} />}
+            </Switch>
+        </Spin>
     )
 }
+
+const mapStateToProps = ({ LadingReducer: { isLoading } }) => {
+    return {
+        isLoading: isLoading
+    }
+}
+
+export default connect(mapStateToProps)(NewRouter)
