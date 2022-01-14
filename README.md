@@ -46,5 +46,3 @@ yarn data
 npm start
 yarn start
 ```
-
-123
